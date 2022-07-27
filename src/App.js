@@ -5,9 +5,9 @@ import contactsData from './contacts.json'
 function App() {
   const contactsFive = contactsData.slice(0, 5)
   const [contacts, setContacts] = useState(contactsFive)
-  //console.log(contacts)
+  console.log(contacts)
   const leftContacts = contactsData.slice(5);
-  console.log(leftContacts)
+  //console.log(leftContacts)
 
   const handleRandom = () => {
     //console.log(contacts)
@@ -30,6 +30,13 @@ function App() {
     setContacts(sortedName)
   }
 
+  const handleDelete = contactId => {
+    const filterContact = contacts.filter(el => {
+      return el.id !== contactId;
+    })
+    setContacts(filterContact);
+  }
+
   return (
     <div className="App">
       <h1>IronContacts</h1>
@@ -46,6 +53,7 @@ function App() {
             <th className='table-heading'>Popularity</th>
             <th className='table-heading'>Won <br /> Oscar</th>
             <th className='table-heading'>Won <br /> Emmy</th>
+            <th className='table-heading'>Actions</th>
           </tr>
         </thead>
         <tbody className='t-body'>
@@ -70,6 +78,9 @@ function App() {
                 </td>
                 <td className='table-body-data'>
                   {emmyWon}
+                </td>
+                <td className='table-body-data'>
+                  <button className='delete-btn' onClick={() => handleDelete(el.id)}>Delete</button>
                 </td>
 
               </tr>
