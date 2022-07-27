@@ -3,12 +3,41 @@ import './App.css';
 import contactsData from './contacts.json'
 
 function App() {
-  const [contacts, setContacts] = useState(contactsData)
-  const firstFive = contacts.slice(0, 5)
-  console.log(firstFive)
+  const contactsFive = contactsData.slice(0, 5)
+  const [contacts, setContacts] = useState(contactsFive)
+  //console.log(contacts)
+  const leftContacts = contactsData.slice(5);
+  console.log(leftContacts)
+
+  const handleRandom = () => {
+    //console.log(contacts)
+    const randomContact = leftContacts[Math.floor(Math.random() * leftContacts.length)];
+    //console.log(randomContact)
+    const newArr = [...contacts]
+    newArr.push(randomContact)
+    //console.log(newArr)
+
+    setContacts(newArr)
+  }
+
+  const handleSortPopularity = () => {
+    const sortedPopularity = [...contacts].sort((a, b) => b.popularity - a.popularity)
+    setContacts(sortedPopularity)
+  }
+
+  const handleSortName = () => {
+    const sortedName = [...contacts].sort((a, b) => a.name.localeCompare(b.name))
+    setContacts(sortedName)
+  }
+
   return (
     <div className="App">
       <h1>IronContacts</h1>
+      <div className='btns-container'>
+        <button onClick={handleRandom}> Add random contact</button>
+        <button onClick={handleSortPopularity}>Sort by popularity</button>
+        <button onClick={handleSortName}>Sort by name</button>
+      </div>
       <table className='table-contacts'>
         <thead className='t-head'>
           <tr className='table-heading-row'>
@@ -20,7 +49,7 @@ function App() {
           </tr>
         </thead>
         <tbody className='t-body'>
-          {firstFive.map(el => {
+          {contacts.map(el => {
             let roundedPopularity = el.popularity.toFixed(2)
             let oscarWon = el.wonOscar && <p>🏆</p>;
             let emmyWon = el.wonEmmy && <p>🏆</p>;
